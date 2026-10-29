@@ -1,0 +1,18 @@
+flowchart LR
+    U[Solicitante] --> F[Formulário web<br/>index.html]
+    F -->|POST JSON| W[Webhook público n8n]
+    W --> V{Validação dos dados}
+    V -->|Inválidos| E[Resposta HTTP 422]
+    E --> F
+    V -->|Válidos| N[Normalização e geração de protocolo]
+    N --> AI[Basic LLM Chain + Structured Output Parser]
+    AI -->|Saída estruturada| OK[Categoria, prioridade, resumo e sugestão]
+    AI -->|Falha ou saída inválida| FB[Fallback: Outro / Média]
+    OK --> S[Google Sheets: registro]
+    FB --> S
+    S --> M[Gmail: confirmação ao solicitante]
+    M --> P{Prioridade Alta?}
+    P -->|Sim| A[Alerta para equipe de TI]
+    P -->|Não| R[Resposta JSON]
+    A --> R
+    R --> F
