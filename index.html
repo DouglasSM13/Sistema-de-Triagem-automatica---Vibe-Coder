@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Central de Chamados TI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: painel de contexto à esquerda + formulário à direita; após o envio, o formulário vira um "canhoto" de protocolo. */
+:root {
+  --bg: #e9edf3;
+  --surface: #ffffff;
+  --surface-2: #f4f6fa;
+  --ink: #142033;
+  --muted: #5b6678;
+  --line: #d3d9e3;
+  --accent: #2f55d4;
+  --accent-ink: #ffffff;
+  --accent-soft: #e3e9fb;
+  --danger: #b4232f;
+  --danger-soft: #fbe7e8;
+  --alta: #b4232f; --alta-soft: #fbe7e8;
+  --media: #9a5b00; --media-soft: #fdf0d9;
+  --baixa: #1d7a4b; --baixa-soft: #e1f3e8;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1520; --surface: #172030; --surface-2: #1d2839; --ink: #e8edf6; --muted: #9aa6b8; --line: #2c3a50;
+    --accent: #7c9bff; --accent-ink: #0f1520; --accent-soft: #23305a;
+    --danger: #ff8a93; --danger-soft: #3a1c22;
+    --alta: #ff8a93; --alta-soft: #3a1c22; --media: #f2b75c; --media-soft: #3a2c14; --baixa: #6fd39d; --baixa-soft: #16342a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1520; --surface: #172030; --surface-2: #1d2839; --ink: #e8edf6; --muted: #9aa6b8; --line: #2c3a50;
+  --accent: #7c9bff; --accent-ink: #0f1520; --accent-soft: #23305a;
+  --danger: #ff8a93; --danger-soft: #3a1c22;
+  --alta: #ff8a93; --alta-soft: #3a1c22; --media: #f2b75c; --media-soft: #3a2c14; --baixa: #6fd39d; --baixa-soft: #16342a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 15px/1.55 var(--f-body);
+  padding-block: 40px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  min-height: 100vh;
+}
+.shell { max-width: 1040px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: start; }
+@media (max-width: 820px) { .shell { grid-template-columns: minmax(0, 1fr); gap: 28px; } body { padding-block: 24px 40px; } }
+
+/* Painel de contexto */
+.intro { display: flex; flex-direction: column; gap: 22px; padding-top: 8px; }
+.brand { display: flex; align-items: center; gap: 10px; font: 600 13px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.brand svg { flex: none; }
+h1 { font: 800 clamp(30px, 4.6vw, 44px)/1.05 var(--f-display); letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+.lead { margin: 0; color: var(--muted); max-width: 42ch; }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.steps li { display: grid; grid-template-columns: 30px minmax(0,1fr); gap: 12px; align-items: start; }
+.steps b { display: block; font-weight: 600; }
+.steps span.n { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; font: 600 13px/1 var(--f-mono); color: var(--accent); background: var(--surface); }
+.steps p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Chips de prioridade */
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font: 600 12px/1.6 var(--f-body); }
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.chip.alta { color: var(--alta); background: var(--alta-soft); }
+.chip.media { color: var(--media); background: var(--media-soft); }
+.chip.baixa { color: var(--baixa); background: var(--baixa-soft); }
+.chip.neutra { color: var(--muted); background: var(--surface-2); }
+
+/* Cartão do formulário */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 28px; box-shadow: 0 1px 2px rgba(20,32,51,.04), 0 12px 32px -18px rgba(20,32,51,.25); }
+@media (max-width: 480px) { .card { padding: 20px; } }
+.card h2 { font: 600 20px/1.2 var(--f-display); margin: 0 0 4px; }
+.card .sub { margin: 0 0 22px; color: var(--muted); font-size: 14px; }
+form { display: flex; flex-direction: column; gap: 18px; }
+.row { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 18px; }
+@media (max-width: 560px) { .row { grid-template-columns: minmax(0,1fr); } }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+label { font-weight: 600; font-size: 14px; }
+label .req { color: var(--danger); font-weight: 500; }
+input, select, textarea {
+  font: inherit; color: var(--ink); background: var(--surface-2);
+  border: 1.5px solid var(--line); border-radius: 9px; padding: 10px 12px; width: 100%;
+  transition: border-color .15s, background .15s;
+}
+textarea { min-height: 130px; resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px var(--accent-soft); }
+.field.invalid input, .field.invalid textarea, .field.invalid select { border-color: var(--danger); }
+.hint { display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; color: var(--muted); }
+.counter { font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.counter.ok { color: var(--baixa); }
+.err { font-size: 13px; color: var(--danger); min-height: 0; }
+.err:empty { display: none; }
+
+.alert { border-radius: 9px; padding: 12px 14px; font-size: 14px; background: var(--danger-soft); color: var(--danger); }
+.actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+button {
+  font: 600 15px/1 var(--f-body); border: 0; border-radius: 9px; padding: 13px 20px; cursor: pointer;
+  background: var(--accent); color: var(--accent-ink); display: inline-flex; align-items: center; gap: 10px;
+}
+button:hover { filter: brightness(1.06); }
+button:focus-visible { outline: 3px solid var(--accent-soft); outline-offset: 2px; }
+button[disabled] { opacity: .7; cursor: progress; }
+button.ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--line); }
+.privacy { font-size: 12.5px; color: var(--muted); }
+.spinner { width: 15px; height: 15px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Canhoto do protocolo */
+.stub { display: flex; flex-direction: column; gap: 0; }
+.stub-head { display: flex; flex-direction: column; gap: 6px; padding-bottom: 20px; }
+.stub-head .ok { display: inline-flex; align-items: center; gap: 8px; color: var(--baixa); font-weight: 600; font-size: 14px; }
+.proto { font: 600 clamp(24px, 5vw, 32px)/1.1 var(--f-mono); letter-spacing: .03em; word-break: break-all; }
+.perf { height: 0; border-top: 2px dashed var(--line); margin: 0 -28px; position: relative; }
+.perf::before, .perf::after { content: ""; position: absolute; top: -11px; width: 20px; height: 20px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); }
+.perf::before { left: -11px; } .perf::after { right: -11px; }
+@media (max-width: 480px) { .perf { margin: 0 -20px; } }
+dl { display: grid; grid-template-columns: max-content minmax(0,1fr); gap: 10px 18px; margin: 20px 0; }
+dt { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; padding-top: 2px; }
+dd { margin: 0; min-width: 0; }
+.tip { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.tip b { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); }
+.note { font-size: 13px; color: var(--muted); margin: 14px 0 18px; }
+.copy-msg { font-size: 13px; color: var(--baixa); }
+
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2s; } * { transition: none !important; } }
+</style>
+</head>
+<body>
+<main class="shell">
+  <section class="intro" aria-labelledby="titulo">
+    <div class="brand">
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Suporte de TI
+    </div>
+    <h1 id="titulo">Abra um chamado e receba o protocolo na hora</h1>
+    <p class="lead">Conte o que está acontecendo. A triagem automática classifica o problema, define a prioridade e já sugere um primeiro passo enquanto a equipe é avisada.</p>
+    <ol class="steps">
+      <li><span class="n">1</span><div><b>Você descreve o problema</b><p>Nome, e-mail, setor e o que aconteceu.</p></div></li>
+      <li><span class="n">2</span><div><b>A IA faz a triagem</b><p>Categoria, prioridade, resumo e uma sugestão inicial.</p></div></li>
+      <li><span class="n">3</span><div><b>Registro e aviso</b><p>O chamado entra na planilha, você recebe o e-mail de confirmação e casos urgentes alertam a equipe.</p></div></li>
+    </ol>
+    <div>
+      <p class="privacy" style="margin:0 0 8px">Como a prioridade é definida:</p>
+      <div class="legend">
+        <span class="chip alta">Alta: várias pessoas paradas ou segurança</span>
+        <span class="chip media">Média: uma pessoa parada</span>
+        <span class="chip baixa">Baixa: incômodo sem bloqueio</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <div id="view-form">
+      <h2>Novo chamado</h2>
+      <p class="sub">Campos marcados com <span style="color:var(--danger)">*</span> são obrigatórios.</p>
+      <form id="form-chamado" novalidate>
+        <div class="row">
+          <div class="field" id="f-nome">
+            <label for="nome">Nome completo <span class="req">*</span></label>
+            <input id="nome" name="nome" type="text" autocomplete="name" placeholder="Ex.: Maria da Silva" maxlength="120">
+            <div class="err" id="e-nome"></div>
+          </div>
+          <div class="field" id="f-email">
+            <label for="email">E-mail <span class="req">*</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="nome@empresa.com" maxlength="160">
+            <div class="err" id="e-email"></div>
+          </div>
+        </div>
+        <div class="field" id="f-setor">
+          <label for="setor">Setor <span class="req">*</span></label>
+          <select id="setor" name="setor">
+            <option value="" selected disabled>Selecione o seu setor</option>
+            <option>Financeiro</option>
+            <option>RH</option>
+            <option>Comercial</option>
+            <option>Operações</option>
+            <option>Outro</option>
+          </select>
+          <div class="err" id="e-setor"></div>
+        </div>
+        <div class="field" id="f-descricao">
+          <label for="descricao">Descrição do problema <span class="req">*</span></label>
+          <textarea id="descricao" name="descricao" maxlength="2000" placeholder="O que aconteceu? Desde quando? Quantas pessoas são afetadas?"></textarea>
+          <div class="hint"><span>Quanto mais detalhes, melhor a triagem.</span><span class="counter" id="contador">0 / mín. 20</span></div>
+          <div class="err" id="e-descricao"></div>
+        </div>
+        <div class="alert" id="alerta" hidden></div>
+        <div class="actions">
+          <button type="submit" id="btn-enviar"><span id="btn-texto">Abrir chamado</span></button>
+          <span class="privacy">Seus dados são usados apenas para o atendimento.</span>
+        </div>
+      </form>
+    </div>
+
+    <div id="view-ok" class="stub" hidden>
+      <div class="stub-head">
+        <span class="ok"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Chamado aberto com sucesso</span>
+        <span class="privacy">Número do protocolo</span>
+        <div class="proto" id="r-protocolo">CH-00000000-XXXX</div>
+        <span class="privacy" id="r-data"></span>
+      </div>
+      <div class="perf" aria-hidden="true"></div>
+      <dl>
+        <dt>Categoria</dt><dd id="r-categoria"></dd>
+        <dt>Prioridade</dt><dd><span class="chip" id="r-prioridade"></span></dd>
+        <dt>Resumo</dt><dd id="r-resumo"></dd>
+      </dl>
+      <div class="tip"><b>Tente primeiro</b><span id="r-sugestao"></span></div>
+      <p class="note" id="r-nota">Você receberá a confirmação por e-mail. Guarde o protocolo para acompanhar o atendimento.</p>
+      <div class="actions">
+        <button type="button" class="ghost" id="btn-copiar">Copiar protocolo</button>
+        <button type="button" id="btn-novo">Abrir outro chamado</button>
+        <span class="copy-msg" id="copy-msg" hidden>Protocolo copiado.</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  /* Endereço de produção do webhook no n8n (nó "Receber Chamado da Página"). */
+  var WEBHOOK_URL = "COLE_A_URL_DO_WEBHOOK_AQUI";
+  var TEMPO_LIMITE_MS = 60000;
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  var form = document.getElementById("form-chamado");
+  var campos = {
+    nome: document.getElementById("nome"),
+    email: document.getElementById("email"),
+    setor: document.getElementById("setor"),
+    descricao: document.getElementById("descricao")
+  };
+  var contador = document.getElementById("contador");
+  var alerta = document.getElementById("alerta");
+  var btn = document.getElementById("btn-enviar");
+  var btnTexto = document.getElementById("btn-texto");
+
+  function setErro(nome, msg) {
+    document.getElementById("e-" + nome).textContent = msg || "";
+    document.getElementById("f-" + nome).classList.toggle("invalid", !!msg);
+  }
+  function limparErros() {
+    ["nome", "email", "setor", "descricao"].forEach(function (n) { setErro(n, ""); });
+    alerta.hidden = true; alerta.textContent = "";
+  }
+
+  campos.descricao.addEventListener("input", function () {
+    var n = campos.descricao.value.trim().length;
+    contador.textContent = n + (n >= 20 ? " caracteres" : " / mín. 20");
+    contador.classList.toggle("ok", n >= 20);
+    if (n >= 20) setErro("descricao", "");
+  });
+  ["nome", "email", "setor"].forEach(function (k) {
+    campos[k].addEventListener("input", function () { setErro(k, ""); });
+  });
+
+  function validar(d) {
+    var ok = true;
+    if (d.nome.length < 3) { setErro("nome", "Informe o seu nome completo."); ok = false; }
+    if (!EMAIL_RE.test(d.email)) { setErro("email", "Use um e-mail válido, por exemplo nome@empresa.com."); ok = false; }
+    if (!d.setor) { setErro("setor", "Selecione o seu setor."); ok = false; }
+    if (d.descricao.length < 20) { setErro("descricao", "Descreva o problema com pelo menos 20 caracteres (você digitou " + d.descricao.length + ")."); ok = false; }
+    return ok;
+  }
+
+  function carregando(sim) {
+    btn.disabled = sim;
+    btnTexto.textContent = sim ? "Classificando com IA..." : "Abrir chamado";
+    var sp = btn.querySelector(".spinner");
+    if (sim && !sp) { sp = document.createElement("span"); sp.className = "spinner"; sp.setAttribute("aria-hidden", "true"); btn.insertBefore(sp, btnTexto); }
+    if (!sim && sp) sp.remove();
+  }
+
+  function mostrarSucesso(r) {
+    document.getElementById("r-protocolo").textContent = r.protocolo || "-";
+    document.getElementById("r-data").textContent = r.data_abertura ? "Aberto em " + r.data_abertura : "";
+    document.getElementById("r-categoria").textContent = r.categoria || "-";
+    var p = document.getElementById("r-prioridade");
+    var prio = r.prioridade || "Média";
+    p.textContent = prio;
+    p.className = "chip " + ({ "Alta": "alta", "Média": "media", "Baixa": "baixa" }[prio] || "neutra");
+    document.getElementById("r-resumo").textContent = r.resumo || "-";
+    document.getElementById("r-sugestao").textContent = r.sugestao_inicial || "Nossa equipe analisará seu chamado em breve.";
+    document.getElementById("r-nota").textContent = (r.classificado_por_ia === false
+      ? "A triagem automática não estava disponível, então aplicamos a prioridade padrão. A equipe revisará o chamado. "
+      : "") + "Você receberá a confirmação por e-mail. Guarde o protocolo para acompanhar o atendimento.";
+    document.getElementById("view-form").hidden = true;
+    document.getElementById("view-ok").hidden = false;
+    document.getElementById("btn-copiar").focus();
+  }
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    limparErros();
+    var dados = {
+      nome: campos.nome.value.trim(),
+      email: campos.email.value.trim().toLowerCase(),
+      setor: campos.setor.value,
+      descricao: campos.descricao.value.trim()
+    };
+    if (!validar(dados)) {
+      var primeiro = document.querySelector(".field.invalid input, .field.invalid select, .field.invalid textarea");
+      if (primeiro) primeiro.focus();
+      return;
+    }
+
+    if (WEBHOOK_URL === "COLE_A_URL_DO_WEBHOOK_AQUI") {
+      alerta.textContent = "O formulário ainda não foi configurado. Insira a URL do webhook de produção do n8n antes de utilizá-lo.";
+      alerta.hidden = false;
+      return;
+    }
+
+    carregando(true);
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, TEMPO_LIMITE_MS);
+
+    fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados),
+      signal: ctrl.signal
+    })
+      .then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (corpo) { return { status: res.status, corpo: corpo }; });
+      })
+      .then(function (r) {
+        if (r.corpo && r.corpo.sucesso === true) { mostrarSucesso(r.corpo); return; }
+        if (r.status === 422 && r.corpo) {
+          if (r.corpo.erros && r.corpo.erros.email) setErro("email", "O servidor recusou o e-mail. Confira o formato.");
+          if (r.corpo.erros && r.corpo.erros.descricao) setErro("descricao", "A descrição precisa ter pelo menos 20 caracteres.");
+          alerta.textContent = r.corpo.mensagem || "Confira os campos destacados e envie novamente.";
+          alerta.hidden = false;
+          return;
+        }
+        alerta.textContent = "O servidor não conseguiu registrar o chamado (código " + r.status + "). Tente novamente em alguns instantes.";
+        alerta.hidden = false;
+      })
+      .catch(function (e) {
+        alerta.textContent = e && e.name === "AbortError"
+          ? "A triagem demorou mais que o esperado. Verifique seu e-mail antes de reenviar, pois o chamado pode ter sido registrado."
+          : "Não foi possível conectar ao serviço de chamados. Verifique sua conexão e se o workflow está publicado no n8n.";
+        alerta.hidden = false;
+      })
+      .finally(function () { clearTimeout(timer); carregando(false); });
+  });
+
+  document.getElementById("btn-novo").addEventListener("click", function () {
+    form.reset(); limparErros();
+    contador.textContent = "0 / mín. 20"; contador.classList.remove("ok");
+    document.getElementById("copy-msg").hidden = true;
+    document.getElementById("view-ok").hidden = true;
+    document.getElementById("view-form").hidden = false;
+    campos.nome.focus();
+  });
+
+  document.getElementById("btn-copiar").addEventListener("click", function () {
+    var texto = document.getElementById("r-protocolo").textContent;
+    var msg = document.getElementById("copy-msg");
+    function ok() { msg.textContent = "Protocolo copiado."; msg.hidden = false; }
+    function falha() {
+      var r = document.createRange(); r.selectNodeContents(document.getElementById("r-protocolo"));
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      msg.textContent = "Protocolo selecionado. Use Ctrl+C para copiar."; msg.hidden = false;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texto).then(ok, falha); else falha();
+  });
+})();
+</script>
+</body>
+</html>
