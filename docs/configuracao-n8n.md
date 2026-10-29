@@ -14,7 +14,7 @@ O workflow, chamado **Triagem Inteligente de Chamados de TI**, recebe dados por 
 - Receber JSON com `nome`, `email`, `setor` e `descricao`.
 - Configurar uma resposta JSON consistente para sucesso e erro.
 - Como o formulário é servido em uma origem diferente do n8n, verificar CORS e preflight conforme a hospedagem escolhida.
-- O endpoint não deve ser tratado como secreto ou mecanismo de autenticação.
+- O endpoint de produção informado para esta instalação é `https://testes-udf-vibe-coding.app.n8n.cloud/webhook/abrir-chamado`. A URL foi inferida a partir do endereço de teste enviado (`/webhook-test/abrir-chamado`); confirme no próprio nó Webhook que a Production URL coincide e publique/ative o workflow. A URL de teste só funciona quando o n8n está ouvindo por um evento de teste. O endpoint não deve ser tratado como secreto ou mecanismo de autenticação.
 
 ### 2. Validação e normalização
 
