@@ -127,7 +127,7 @@ Siga [`docs/configuracao-n8n.md`](docs/configuracao-n8n.md). Em termos gerais, �
 
 ### 2. Configurar a página
 
-A URL do webhook de produção do n8n já está configurada em `index.html`. Se precisar alterá-la, edite a constante `WEBHOOK_URL` e publique o commit. Com o projeto da Vercel conectado a este repositório, a alteração deve disparar uma nova publicação. **Não coloque senhas, tokens de API ou credenciais de Google/OpenAI no HTML.** A URL do webhook estará visível no navegador; o fluxo n8n deve validar os dados no servidor e implementar controles contra chamadas indevidas.
+A URL de produção da nova conta n8n está configurada em `index.html`: `https://testes-udf-vibe-coding.app.n8n.cloud/webhook/abrir-chamado`. Ela foi derivada da URL de teste informada, trocando `/webhook-test/` por `/webhook/`. Confirme no nó Webhook que a Production URL exibida pelo n8n é exatamente essa e que o workflow está publicado/ativo. Se precisar alterá-la, edite a constante `WEBHOOK_URL` e publique o commit. Com o projeto da Vercel conectado a este repositório, a alteração deve disparar uma nova publicação. **Não coloque senhas, tokens de API ou credenciais de Google/OpenAI no HTML.** A URL do webhook estará visível no navegador; o fluxo n8n deve validar os dados no servidor e implementar controles contra chamadas indevidas.
 
 ### 3. Testar localmente
 
