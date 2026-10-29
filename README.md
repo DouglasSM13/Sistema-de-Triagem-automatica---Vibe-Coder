@@ -2,6 +2,10 @@
 
 Protótipo acadêmico de automação de atendimento de TI com **n8n, IA, Google Sheets, Gmail e uma página web própria**. A solução recebe um problema, valida os dados, gera protocolo, sugere uma classificação e registra o pedido para que a equipe possa priorizar o atendimento.
 
+## Demonstração online
+
+Acesse a versão publicada na Vercel: **[https://sistema-de-triagem-eosin.vercel.app/](https://sistema-de-triagem-eosin.vercel.app/)**.
+
 > **Estado deste pacote:** a página web e a documentação estão incluídas. A URL do webhook foi substituída por um marcador para não publicar o endpoint ativo. É necessário configurar o webhook de seu workflow n8n antes de usar a página. O JSON exportado do workflow n8n não fazia parte dos arquivos fornecidos para preparar este repositório; consulte [Configuração do n8n](docs/configuracao-n8n.md) para reproduzir e revisar o fluxo.
 
 ## Sumário
@@ -90,7 +94,7 @@ Versão-fonte do diagrama: [`docs/arquitetura.mmd`](docs/arquitetura.mmd). O des
 | **Google Sheets** | Registro tabular dos chamados. |
 | **Gmail** | Confirmação ao solicitante e alerta de urgência. |
 | **HTML, CSS e JavaScript** | Formulário independente, validação no cliente e apresentação da resposta. |
-| **GitHub Pages (opcional)** | Hospedagem estática da página web. |
+| **Vercel** | Hospedagem da página web estática e publicação da demonstração online. |
 
 ### Por que n8n?
 
@@ -135,15 +139,13 @@ Substitua o texto pela URL de produção do webhook do seu workflow n8n, depois 
 
 Como a página é estática, basta abrir `index.html` no navegador para conferir a interface e a validação local. Para testar o envio ao workflow, use a URL de webhook configurada e confirme também o funcionamento do CORS. Faça primeiro testes com dados fictícios.
 
-### 4. Publicar com GitHub Pages (opcional)
+### 4. Publicação na Vercel
 
-1. Publique os arquivos deste repositório no GitHub.
-2. No repositório, abra **Settings → Pages**.
-3. Escolha a fonte de publicação pela branch `main` e a pasta raiz (`/(root)`).
-4. Salve e aguarde a URL indicada pelo GitHub.
-5. Teste a página publicada com dados fictícios e confira o endpoint do n8n, CORS e mensagens de erro.
+A demonstração do projeto está publicada em [https://sistema-de-triagem-eosin.vercel.app/](https://sistema-de-triagem-eosin.vercel.app/).
 
-GitHub Pages hospeda apenas conteúdo estático: o processamento de workflow continua acontecendo no n8n.
+Para atualizar a publicação, confira se o projeto da Vercel está conectado ao repositório e à branch corretos. Após novos commits, verifique o deployment e teste o formulário com dados fictícios. Confirme também se a URL do webhook usada no ambiente de produção está configurada corretamente e se o n8n permite a origem da página quando necessário.
+
+A Vercel hospeda a interface web; o processamento do workflow e as integrações continuam acontecendo no n8n.
 
 ## Validação e classificação
 
