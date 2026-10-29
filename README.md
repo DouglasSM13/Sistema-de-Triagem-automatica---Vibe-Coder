@@ -6,7 +6,7 @@ Protótipo acadêmico de automação de atendimento de TI com **n8n, IA, Google 
 
 Acesse a versão publicada na Vercel: **[https://sistema-de-triagem-eosin.vercel.app/](https://sistema-de-triagem-eosin.vercel.app/)**.
 
-> **Estado deste pacote:** a página web e a documentação estão incluídas. A URL do webhook foi substituída por um marcador para não publicar o endpoint ativo. É necessário configurar o webhook de seu workflow n8n antes de usar a página. O JSON exportado do workflow n8n não fazia parte dos arquivos fornecidos para preparar este repositório; consulte [Configuração do n8n](docs/configuracao-n8n.md) para reproduzir e revisar o fluxo.
+> **Estado do projeto:** a página está configurada para chamar o webhook de produção do n8n. Como a URL fica no JavaScript do navegador, ela é visível a qualquer visitante — endpoints públicos precisam de validação, controle contra abuso e monitoramento. O JSON exportado do workflow n8n não fazia parte dos arquivos fornecidos para preparar este repositório; consulte [Configuração do n8n](docs/configuracao-n8n.md) para revisar o fluxo.
 
 ## Sumário
 
@@ -127,13 +127,7 @@ Siga [`docs/configuracao-n8n.md`](docs/configuracao-n8n.md). Em termos gerais, �
 
 ### 2. Configurar a página
 
-Abra `index.html` e encontre a linha:
-
-```javascript
-var WEBHOOK_URL = "COLE_A_URL_DO_WEBHOOK_AQUI";
-```
-
-Substitua o texto pela URL de produção do webhook do seu workflow n8n, depois de conferir que o fluxo está publicado e testado. **Não coloque senhas, tokens de API ou credenciais de Google/OpenAI no HTML.** O endpoint público não é uma senha, mas sua publicação pode facilitar chamadas automatizadas indevidas.
+A URL do webhook de produção do n8n já está configurada em `index.html`. Se precisar alterá-la, edite a constante `WEBHOOK_URL` e publique o commit. Com o projeto da Vercel conectado a este repositório, a alteração deve disparar uma nova publicação. **Não coloque senhas, tokens de API ou credenciais de Google/OpenAI no HTML.** A URL do webhook estará visível no navegador; o fluxo n8n deve validar os dados no servidor e implementar controles contra chamadas indevidas.
 
 ### 3. Testar localmente
 
@@ -210,7 +204,7 @@ Os cenários e os resultados conhecidos estão detalhados em [`docs/casos-de-tes
 
 ## Segurança e privacidade
 
-- O HTML deste repositório **não contém a URL ativa do webhook**; configure-a localmente ou no ramo de publicação após avaliar o risco de exposição.
+- O HTML contém a URL do webhook usada pelo frontend, visível aos visitantes porque a página é estática. Não trate essa URL como senha; proteja o workflow com validação no servidor, limitação de requisições, monitoramento e controles adequados contra abuso.
 - Guarde credenciais no gerenciador de credenciais do n8n. Nunca adicione chaves, tokens ou senhas ao código, ao README ou aos commits.
 - O webhook do protótipo é público e não tem autenticação por padrão. Para uso real, considere autenticação ou um mecanismo de acesso apropriado, limitação de requisições, monitoramento e proteção contra spam.
 - Restrinja o compartilhamento da planilha a pessoas autorizadas. Ela contém nome, e-mail e descrição de problemas, que podem ser dados pessoais.
