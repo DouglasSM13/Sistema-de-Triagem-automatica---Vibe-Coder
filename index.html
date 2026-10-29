@@ -345,7 +345,7 @@ dd { margin: 0; min-width: 0; }
           alerta.hidden = false;
           return;
         }
-        alerta.textContent = "O servidor não conseguiu registrar o chamado (código " + r.status + "). Tente novamente em alguns instantes.";
+        alerta.textContent = "O servidor encontrou uma falha ao processar o chamado (código " + r.status + "). Antes de enviar novamente, confira se o chamado já aparece na planilha ou se recebeu o e-mail de confirmação, pois ele pode ter sido registrado antes da falha.";
         alerta.hidden = false;
       })
       .catch(function (e) {
