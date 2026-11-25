@@ -341,3 +341,12 @@ Conforme o material de desenvolvimento compartilhado, o workflow de abertura foi
 ---
 
 Desenvolvido como projeto acadêmico sobre Low Code / No Code / Vibecode, com foco em automação de processos e uso responsável de IA.
+
+## Roteiro rápido para demonstração
+
+1. Abra a página publicada e apresente o formulário de abertura.
+2. Envie um chamado de exemplo com informações fictícias e mostre o protocolo gerado.
+3. Explique como a equipe consulta o registro na planilha e atualiza o status.
+4. Abra o chatbot, informe o protocolo e o e-mail fictício utilizado e demonstre a consulta do andamento.
+
+Use somente dados fictícios durante apresentações. A demonstração deve ser feita com os workflows ativos e as integrações previamente verificadas.
