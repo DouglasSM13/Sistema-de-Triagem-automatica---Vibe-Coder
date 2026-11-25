@@ -4,7 +4,7 @@ Protótipo acadêmico de automação de atendimento de TI com **n8n, IA, Google 
 
 ## Demonstração online
 
-Acesse a versão publicada na Vercel: **[[https://sistema-de-triagem-eosin.vercel.app/](https://sistema-de-triagem-eosin.vercel.app/)](https://sistema-de-triagem-automatica.vercel.app/)**.
+Acesse a versão publicada na Vercel: **https://sistema-de-triagem-automatica.vercel.app/**.
 
 > **Estado do projeto:** a página chama dois webhooks de produção do n8n: um para abrir chamados e outro para o assistente de chat. Como as URLs ficam no JavaScript do navegador, elas são visíveis a qualquer visitante; endpoints públicos precisam de validação, controle contra abuso e monitoramento. O workflow do chatbot está versionado em [`n8n/chatbot-chamados-n8n.json`](n8n/chatbot-chamados-n8n.json). O workflow de abertura de chamados ainda não foi exportado para o repositório; consulte [Configuração do n8n](docs/configuracao-n8n.md) para revisar o fluxo.
 
