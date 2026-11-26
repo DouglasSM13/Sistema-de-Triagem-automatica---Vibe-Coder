@@ -6,7 +6,7 @@ Protótipo acadêmico de automação de atendimento de TI com **n8n, IA, Google 
 
 Acesse a versão publicada na Vercel: **https://sistema-de-triagem-automatica.vercel.app/**.
 
-> **Estado do projeto:** a página chama dois webhooks de produção do n8n: um para abrir chamados e outro para o assistente de chat. Como as URLs ficam no JavaScript do navegador, elas são visíveis a qualquer visitante; endpoints públicos precisam de validação, controle contra abuso e monitoramento. O workflow do chatbot está versionado em [`n8n/chatbot-chamados-n8n.json`](n8n/chatbot-chamados-n8n.json). O workflow de abertura de chamados ainda não foi exportado para o repositório; consulte [Configuração do n8n](docs/configuracao-n8n.md) para revisar o fluxo.
+> **Estado do projeto:** a página chama webhooks do n8n para abrir chamados e para o assistente de chat. Como as URLs ficam no JavaScript do navegador, elas são visíveis a qualquer visitante; endpoints públicos precisam de validação, controle contra abuso e monitoramento. Na árvore da branch `main` consultada em 26/11/2026, não foi localizado o arquivo `n8n/chatbot-chamados-n8n.json`, embora ele seja citado nas instruções abaixo. Portanto, não é possível afirmar que o workflow do chatbot esteja versionado neste repositório. O workflow de abertura também precisa ter sua exportação conferida e revisada antes de ser incluído. Consulte [Configuração do n8n](docs/configuracao-n8n.md).
 
 ## Sumário
 
@@ -170,8 +170,6 @@ triagem-inteligente-chamados-ti/
 ├── index.html                       # Página de abertura de chamado + chat flutuante
 ├── README.md                        # Visão geral e documentação principal
 ├── .gitignore
-├── n8n/
-│   └── chatbot-chamados-n8n.json    # Workflow do assistente (importável no n8n)
 └── docs/
     ├── arquitetura.mmd              # Fonte Mermaid do desenho da abertura de chamados
     ├── configuracao-n8n.md          # Componentes e preparação do workflow de abertura
@@ -191,10 +189,10 @@ Siga [`docs/configuracao-n8n.md`](docs/configuracao-n8n.md). Em termos gerais, �
 
 ### 3. Preparar o workflow do assistente
 
-1. No n8n, importe [`n8n/chatbot-chamados-n8n.json`](n8n/chatbot-chamados-n8n.json) com **Import from File**.
-2. Nos nós **Buscar Chamado na Planilha** e **Registrar Informação no Chamado**, selecione a credencial do Google Sheets, a planilha e a aba (configurada como `Página1`).
-3. No nó **Modelo Gemini**, selecione a credencial da API do Gemini. Se o modelo configurado não estiver disponível, escolha o modelo Flash mais recente da lista.
-4. Ative o workflow. O endpoint de produção termina em `/webhook/chat-chamado`.
+1. Primeiro, solicite ao responsável pelo n8n a exportação JSON atual do workflow do chatbot, sem credenciais ou dados sensíveis. O arquivo citado anteriormente não foi localizado na branch `main` consultada em 26/11/2026.
+2. Revise o JSON exportado e só então importe-o no n8n com **Import from File**.
+3. Nos nós de Google Sheets e Gemini, selecione as credenciais e recursos corretos da conta responsável.
+4. Ative o workflow e confirme a Production URL exibida pelo nó Webhook antes de configurar a página.
 
 ### 4. Configurar a página
 
@@ -213,7 +211,7 @@ Como a página é estática, basta abrir `index.html` no navegador para conferir
 
 ### 6. Publicação na Vercel
 
-A demonstração do projeto está publicada em [https://sistema-de-triagem-eosin.vercel.app/](https://sistema-de-triagem-eosin.vercel.app/).
+A URL oficial da demonstração, confirmada pelo responsável pelo teste em 26/11/2026, é [https://sistema-de-triagem-automatica.vercel.app/](https://sistema-de-triagem-automatica.vercel.app/). Este é o endereço a utilizar neste README e no roteiro de apresentação.
 
 Para atualizar a publicação, confira se o projeto da Vercel está conectado ao repositório e à branch corretos. Após novos commits, verifique o deployment e teste o formulário e o chat com dados fictícios.
 
@@ -281,7 +279,7 @@ Colunas usadas no acompanhamento:
 
 ## Testes
 
-Os cenários e os resultados conhecidos estão detalhados em [`docs/casos-de-teste.md`](docs/casos-de-teste.md). O material compartilhado durante o desenvolvimento registrava apenas o cenário de prioridade alta como aprovado com dados simulados; os outros casos ainda estavam pendentes naquele registro. Atualize a documentação com os resultados reais antes de apresentar o projeto como totalmente testado.
+Os cenários e os resultados conhecidos estão detalhados em [`docs/casos-de-teste.md`](docs/casos-de-teste.md). Em 26/11/2026 foram relatadas duas execuções reais na aplicação publicada. Na primeira, a página confirmou a abertura de um chamado classificado como Software, prioridade Média. Na segunda, a abertura de um chamado de instabilidade de internet gerou o protocolo `CH-20261126-VCTH`, categoria Rede/Internet e prioridade Alta; o chatbot consultou o status `Aberto` e o e-mail de confirmação foi recebido na caixa de entrada, conforme confirmação do testador. Douglas confirmou posteriormente que os workflows n8n, a gravação no Google Sheets e o alerta interno de prioridade alta estão funcionando. Essa confirmação foi repassada por Nathan; a equipe de documentação não acessou diretamente os serviços para reproduzir a verificação. A exportação e o versionamento dos workflows JSON no Git continuam pendentes de comprovação. Os demais cenários da matriz continuam pendentes; portanto, os testes documentados não significam que todos os cenários possíveis estejam aprovados.
 
 Cenários sugeridos para o assistente:
 
