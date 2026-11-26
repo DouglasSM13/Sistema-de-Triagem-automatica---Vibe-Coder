@@ -6,13 +6,13 @@ Este roteiro complementa [casos-de-teste.md](casos-de-teste.md) e deve ser preen
 
 ## 1. Identificação da execução
 
-- Responsável pelo teste:
-- Data e horário:
-- Ambiente: ( ) publicado / ( ) local / ( ) n8n de teste
-- Navegador e versão:
-- URL efetivamente testada:
-- Versão/commit da aplicação:
-- Observações:
+- Responsável pelo teste: contribuinte do projeto (identificação pessoal omitida nesta documentação pública).
+- Data e horário: 26/11/2026, aproximadamente 09:49 (horário informado na tela: 09:49:35).
+- Ambiente: aplicação publicada (conforme relato do testador; URL e navegador não informados).
+- Navegador e versão: não informado.
+- URL efetivamente testada: não confirmada nesta execução.
+- Versão/commit da aplicação: não identificado.
+- Observações: teste inicial relatado pelo contribuinte. Protocolo e identificação do solicitante foram anonimizados para não expor dados pessoais no repositório público.
 
 Use somente dados fictícios. Não registre senhas, tokens, credenciais, e-mails reais ou dados pessoais nas capturas de tela.
 
@@ -20,7 +20,7 @@ Use somente dados fictícios. Não registre senhas, tokens, credenciais, e-mails
 
 | ID | Cenário / entrada | Resultado esperado | Resultado observado | Status |
 |---|---|---|---|---|
-| AB-01 | Abrir chamado válido com nome, e-mail fictício, setor e descrição com mais de 20 caracteres | O formulário envia os dados, recebe confirmação e apresenta protocolo | A preencher | Não executado |
+| AB-01 | Abrir chamado válido (teste realizado com dados do próprio contribuinte) | O formulário envia os dados, recebe confirmação e apresenta protocolo | **Sucesso.** A tela informou chamado aberto e gerou protocolo (anonimizado: `CH-20261126-XXXX`). | Aprovado — relato do testador |
 | AB-02 | Nome vazio ou com menos de 3 caracteres | Validação impede o envio e informa o campo inválido | A preencher | Não executado |
 | AB-03 | E-mail inválido (ex.: `teste@empresa`) | Validação impede o envio | A preencher | Não executado |
 | AB-04 | Setor não selecionado | Validação impede o envio | A preencher | Não executado |
@@ -33,13 +33,14 @@ Use somente dados fictícios. Não registre senhas, tokens, credenciais, e-mails
 
 | ID | Entrada | Resultado esperado | Resultado observado | Status |
 |---|---|---|---|---|
-| IA-01 | “A internet caiu no setor inteiro” | Rede/Internet; prioridade Alta; segue ramificação de alerta | A preencher | Não executado |
+| IA-01 | “A internet caiu no setor inteiro” | Rede/Internet; prioridade Alta; segue ramificação de alerta | Não executado nesta rodada; foi testada outra descrição (ver registro IA-08). | Pendente |
 | IA-02 | “Esqueci minha senha do sistema” | Acesso/Senha; prioridade Média | A preencher | Não executado |
 | IA-03 | “Quero trocar o papel de parede” | Outro; prioridade Baixa; sem alerta de urgência | A preencher | Não executado |
 | IA-04 | “Recebi um e-mail suspeito pedindo minha senha” | Prioridade Alta ou encaminhamento prudente para segurança; não afirmar que o incidente está confirmado | A preencher | Não executado |
 | IA-05 | “Minha impressora não liga” | Hardware; prioridade coerente com impacto individual | A preencher | Não executado |
 | IA-06 | Descrição ambígua, sem informar quantidade de pessoas afetadas | Classificação prudente, sem inventar contexto; equipe humana pode revisar | A preencher | Não executado |
 | IA-07 | IA indisponível ou resposta fora do formato esperado | Fallback documentado; `classificado_por_ia = false`; chamado continua registrável | A preencher | Não executado |
+| IA-08 | “Usuário impossibilitado de realizar a saída de produtos no sistema de coleta.” | Categoria Software; prioridade Média, considerando impedimento operacional individual | A tela retornou **Software / Média** e resumo coerente com o problema descrito. | Aprovado — relato do testador |
 
 **Atenção:** a classificação é probabilística. Registre a saída real, inclusive quando divergir do esperado. Não altere o resultado observado para fazê-lo coincidir com o roteiro.
 
@@ -48,12 +49,30 @@ Use somente dados fictícios. Não registre senhas, tokens, credenciais, e-mails
 | ID | Verificação | Resultado esperado | Resultado observado | Status |
 |---|---|---|---|---|
 | INT-01 | Conferir chamado recém-aberto na planilha | Protocolo e campos correspondem ao formulário e à resposta exibida | A preencher | Não executado |
-| INT-02 | Conferir e-mail de confirmação | Mensagem chega ao endereço fictício de teste e contém protocolo correto | A preencher | Não executado |
+| INT-02 | Conferir e-mail de confirmação | Mensagem chega ao endereço utilizado no teste e contém protocolo correto | O testador forneceu o conteúdo da confirmação com protocolo, categoria, prioridade, resumo e sugestão inicial. Endereço foi omitido por privacidade. | Confirmado pelo relato do testador; entrega não verificada independentemente |
 | INT-03 | Abrir chamado de prioridade Alta | Alerta é enviado à equipe configurada, com protocolo correspondente | A preencher | Não executado |
 | INT-04 | Simular indisponibilidade do Sheets em ambiente controlado | Sistema apresenta falha controlada e não afirma que o chamado foi salvo | A preencher | Não executado |
 | INT-05 | Simular falha do Gmail em ambiente controlado | Falha de notificação fica identificável; registrar se o chamado foi salvo antes da falha | A preencher | Não executado |
 
 Não remova credenciais nem provoque falhas em produção sem autorização do responsável pelo ambiente. Se não houver ambiente de teste, marque como **Não executado — requer ambiente controlado**.
+
+## 4.1 Registro da primeira execução — 26/11/2026
+
+O contribuinte informou que abriu um chamado na aplicação e compartilhou a resposta exibida. Para preservar a privacidade, não foram registrados nome, endereço de e-mail nem protocolo completo.
+
+- **Horário exibido:** 09:49:35.
+- **Protocolo:** `CH-20261126-XXXX` (mascarado).
+- **Descrição resumida:** usuário não conseguia realizar a saída de produtos no sistema de coleta.
+- **Classificação retornada:** Software.
+- **Prioridade retornada:** Média.
+- **Resumo apresentado:** usuário impossibilitado de realizar a saída de produtos no sistema de coleta.
+- **Sugestão inicial:** reiniciar/atualizar o aplicativo e verificar campos obrigatórios.
+- **Abertura do chamado:** sucesso, com protocolo gerado e tela de confirmação.
+- **Confirmação por e-mail:** conteúdo da mensagem foi compartilhado pelo testador; a entrega efetiva na caixa de entrada não foi verificada de forma independente.
+- **Registro no Google Sheets:** ainda precisa ser conferido diretamente na planilha.
+- **Alerta de prioridade alta:** não aplicável a este chamado, classificado como Média.
+
+**Conclusão parcial:** o envio e a resposta de triagem foram bem-sucedidos neste exemplo. Isso não comprova ainda a persistência na planilha, o recebimento efetivo do e-mail, nem os demais cenários de validação.
 
 ## 5. Chatbot de acompanhamento
 
