@@ -8,7 +8,7 @@
 
 Comparar os arquivos versionados da aplicação e sua documentação, executar verificações estáticas possíveis sem alterar o ambiente de produção e registrar o que depende de confirmação no Vercel/n8n.
 
-**Importante:** esta revisão não envia chamados de teste aos webhooks de produção, não altera endpoints, não desativa workflows, não acessa planilhas/caixas de e-mail e não modifica credenciais. Uma leitura de código não comprova a execução real dos serviços externos.
+**Importante:** esta revisão não envia chamados de teste aos webhooks de produção, não altera endpoints, não desativa workflows, não acessa diretamente planilhas/caixas de e-mail e não modifica credenciais. Após a auditoria, Douglas confirmou ao responsável pela documentação que os workflows n8n, a gravação no Google Sheets e o alerta interno de prioridade alta estão funcionando. Essa confirmação é registrada como declaração do mantenedor repassada por Nathan, não como inspeção independente desta revisão.
 
 ## 1. Divergências confirmadas
 
@@ -39,13 +39,15 @@ Essas verificações são estáticas: confirmam o que está escrito no HTML, nã
 
 Em 26/11/2026, o contribuinte compartilhou uma execução na aplicação publicada: a abertura retornou sucesso, gerou protocolo, classificou o problema como Software/Média e exibiu resumo e sugestão inicial coerentes. O conteúdo da confirmação por e-mail foi compartilhado, mas a entrega na caixa de entrada não foi verificada independentemente. Nome, endereço de e-mail e protocolo completo foram omitidos por privacidade.
 
-### Não verificados nesta revisão
+### Confirmações posteriores do mantenedor
 
+Douglas confirmou que os workflows estão funcionando na instância n8n, que a gravação no Google Sheets está funcionando e que o alerta interno para chamados de prioridade alta está funcionando. Esta informação foi repassada por Nathan e não foi reproduzida diretamente nesta auditoria.
+
+### Ainda não comprovado nesta revisão
+
+- Exportação e versionamento dos workflows JSON no GitHub: os arquivos não foram localizados nos caminhos documentados da branch `main`.
 - Acesso independente aos dois domínios Vercel e identificação do deployment atualmente ativo.
 - POST de teste aos webhooks de produção.
-- Production URLs efetivas e estado Published/Active dos workflows no n8n.
-- Persistência do chamado na planilha Google Sheets.
-- Entrega efetiva de e-mail e alerta de prioridade alta.
 - Fallback com modelo indisponível.
 - Autorização do chatbot com protocolo válido e e-mail incorreto.
 - Proteção contra consulta de chamados de terceiros.
@@ -56,11 +58,11 @@ Não foram executados testes destrutivos nem tentativas de derrubar integraçõe
 ## 4. Situação das confirmações de endereço
 
 - **Vercel:** o responsável pelo teste confirmou como endereço oficial utilizado `https://sistema-de-triagem-automatica.vercel.app/`. O README foi padronizado. Esta auditoria não acessou as configurações internas da Vercel.
-- **n8n:** o host documentado para abertura coincide com o frontend. A Production URL e o estado Published/Active ainda devem ser conferidos pelo responsável diretamente no n8n. Não foi feita alteração nos webhooks.
+- **n8n:** Douglas confirmou que os workflows estão funcionando. A revisão não acessou o painel para conferir diretamente o estado Published/Active ou copiar as Production URLs. Não foi feita alteração nos webhooks.
 
 ## 5. Recomendação para a documentação
 
-Manter este relatório como histórico da auditoria. `docs/casos-de-teste.md` foi atualizado com as duas execuções relatadas em 26/11/2026, sem transformar cenários pendentes em aprovados. O status geral não deve ser declarado como “todos os testes aprovados” enquanto houver cenários sem registro verificável.
+Manter este relatório como histórico da auditoria. `docs/casos-de-teste.md` registra as duas execuções e a confirmação posterior do mantenedor sobre Sheets, alerta e workflows ativos. Os cenários de teste restantes continuam pendentes; a exportação/versionamento dos JSON ainda precisa ser comprovada. O status geral não deve ser declarado como “todos os testes aprovados” enquanto houver cenários sem registro verificável.
 
 ## 6. Segurança e preservação da aplicação
 
