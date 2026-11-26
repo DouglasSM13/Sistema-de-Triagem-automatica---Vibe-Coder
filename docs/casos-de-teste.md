@@ -1,6 +1,6 @@
 # Casos de teste
 
-Este documento separa resultados esperados do status registrado no material de desenvolvimento. Apenas o caso 1 estava marcado como aprovado com dados simulados na transcrição compartilhada. Os demais permanecem **pendentes de execução documentada** até que os testes sejam realizados e registrados.
+Este documento separa resultados esperados de evidências efetivamente relatadas. O caso 1 abaixo já constava como aprovado com dados simulados no material de desenvolvimento. Em 26/11/2026 foi registrada também uma execução manual de abertura de chamado (caso 12). A confirmação exibida na página e os dados resumidos foram relatados pelo usuário; a entrega do e-mail na caixa de entrada e a persistência no Google Sheets não foram verificadas independentemente. Os demais cenários permanecem **pendentes de execução documentada**.
 
 | # | Cenário | Resultado esperado | Status conhecido |
 |---:|---|---|---|
@@ -15,6 +15,7 @@ Este documento separa resultados esperados do status registrado no material de d
 | 9 | Descrição longa e caracteres especiais | Dados processados sem quebra de interface e sem injeção de HTML | Pendente |
 | 10 | IA indisponível ou nó de IA desativado | Fallback; `classificado_por_ia = false`; fluxo continua | Pendente |
 | 11 | Falha de Google Sheets ou credencial removida | Erro controlado; o sistema não deve fingir que o registro ocorreu | Pendente |
+| 12 | Abertura manual em 26/11/2026: chamado sobre impossibilidade de saída de produtos no sistema de coleta | Página exibe confirmação, protocolo mascarado, categoria Software, prioridade Média e sugestão inicial | Executado pelo usuário; e-mail e gravação no Sheets não verificados independentemente |
 
 ## Como executar os testes
 
