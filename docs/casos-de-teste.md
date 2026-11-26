@@ -1,6 +1,6 @@
 # Casos de teste
 
-Este documento separa resultados esperados de evidências efetivamente relatadas. O caso 1 abaixo já constava como aprovado com dados simulados no material de desenvolvimento. Em 26/11/2026 foram relatadas duas execuções manuais: a primeira de abertura de chamado (caso 12) e a segunda com abertura, consulta pelo chatbot e recebimento do e-mail (caso 13). A persistência no Google Sheets e o alerta interno para prioridade Alta não foram verificados independentemente. Os demais cenários permanecem **pendentes de execução documentada**.
+Este documento separa resultados esperados de evidências efetivamente relatadas. O caso 1 abaixo já constava como aprovado com dados simulados no material de desenvolvimento. Em 26/11/2026 foram relatadas duas execuções manuais: a primeira de abertura de chamado (caso 12) e a segunda com abertura, consulta pelo chatbot e recebimento do e-mail (caso 13). Após as execuções, Douglas confirmou ao responsável pelo registro que a persistência no Google Sheets, o alerta interno para prioridade Alta e os workflows no n8n estão funcionando. Trata-se de confirmação do mantenedor repassada por Nathan, não de inspeção independente desta revisão. A exportação e o versionamento dos workflows JSON ainda não foram comprovados na árvore do Git. Os demais cenários permanecem **pendentes de execução documentada**.
 
 | # | Cenário | Resultado esperado | Status conhecido |
 |---:|---|---|---|
