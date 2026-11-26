@@ -15,9 +15,9 @@ Comparar os arquivos versionados da aplicação e sua documentação, executar v
 | ID | Local | Evidência | Impacto | Correção segura proposta |
 |---|---|---|---|---|
 | D-01 | `README.md` e árvore da branch `main` | README aponta para `n8n/chatbot-chamados-n8n.json` e manda importá-lo. A árvore consultada não contém a pasta `n8n/` nem o JSON. | A instrução de importação não pode ser seguida a partir do conteúdo atual da branch. | Antes de instruir importação, recuperar o export sanitizado ou deixar explícito que o workflow está apenas na instância n8n e não é reproduzível pelo repositório. |
-| D-02 | `README.md` | No início indica `https://sistema-de-triagem-automatica.vercel.app/`; mais adiante indica `https://sistema-de-triagem-eosin.vercel.app/` como demonstração. | Duas URLs são apresentadas como demonstração publicada. | Não escolher uma por suposição. Confirmar com o proprietário da Vercel qual domínio está ligado ao deployment atual; depois padronizar o README. |
-| D-03 | `index.html` × `docs/configuracao-n8n.md` | O HTML aponta ambos os webhooks para o host `udf-tendencias-ccp.app.n8n.cloud`. A documentação de configuração cita `testes-udf-vibe-coding.app.n8n.cloud` para o webhook de abertura. | Quem configurar o workflow com base no documento pode usar host diferente do consumido pela página. | Confirmar a Production URL no nó Webhook ativo do n8n. Não substituir a URL do HTML até essa confirmação. |
-| D-04 | `README.md` × `docs/casos-de-teste.md` | Ambos descrevem um registro antigo: somente o cenário 1 aprovado com dados simulados e demais pendentes. Existe ao menos um teste posterior relatado em 26/11/2026, descrito neste relatório. | Status da documentação está desatualizado em relação à evidência posterior compartilhada pelo contribuinte. | Consolidar as execuções da equipe em uma matriz única, com resultado observado e evidência. Não marcar todos os testes como aprovados sem seus registros. |
+| D-02 | `README.md` | O responsável pelo teste confirmou `https://sistema-de-triagem-automatica.vercel.app/` como endereço utilizado e testado. A seção de publicação foi padronizada para esse endereço; o domínio alternativo deixou de ser apresentado como demonstração oficial. | Resolvida documentalmente. A confirmação é do responsável pelo teste; esta auditoria não inspecionou as configurações internas da Vercel. | Manter o endereço confirmado como URL oficial no README e nos materiais de apresentação. |
+| D-03 | `index.html` × `docs/configuracao-n8n.md` | O HTML e a documentação agora indicam `udf-tendencias-ccp.app.n8n.cloud` para o webhook de abertura. A documentação registra que a confirmação da URL não comprova o estado ativo do workflow. | Resolvida quanto à divergência textual; o estado da Production URL no painel n8n continua sem inspeção independente. | Não alterar endpoints. O responsável pelo n8n deve conferir o estado Published/Active antes da demonstração. |
+| D-04 | `README.md` × `docs/casos-de-teste.md` | O README e a matriz de testes foram atualizados para registrar duas execuções manuais relatadas em 26/11/2026, incluindo abertura, consulta pelo chatbot e recebimento do e-mail na segunda execução. | Resolvida quanto à atualização documental. Os demais cenários continuam pendentes e não devem ser marcados como aprovados. | Manter os resultados separados por cenário e registrar novas evidências somente após execução. |
 | D-05 | `README.md` × `docs/configuracao-n8n.md` × arquivos versionados | README sugere que o workflow do chatbot está versionado; configuração diz que o JSON do workflow de abertura não foi fornecido. A árvore atual não contém exports de workflow. | Não está claro quais partes da automação podem ser reconstruídas apenas com o Git. | Documentar separadamente workflows exportados/versionados e workflows existentes apenas na conta n8n. |
 
 ## 2. Verificações estáticas realizadas no HTML
@@ -53,17 +53,14 @@ Em 26/11/2026, o contribuinte compartilhou uma execução na aplicação publica
 
 Não foram executados testes destrutivos nem tentativas de derrubar integrações de produção.
 
-## 4. Ações pendentes antes de alterar endereços
+## 4. Situação das confirmações de endereço
 
-1. O responsável pela Vercel deve confirmar qual URL é o deployment oficial e se ambos os domínios ainda apontam para a aplicação.
-2. O responsável pelo n8n deve copiar as Production URLs diretamente dos nós Webhook ativos de abertura e chat.
-3. Comparar os endereços confirmados com as constantes do HTML.
-4. Só então alterar a documentação e, se necessário, o HTML, em commit separado.
-5. Fazer novo teste de abertura e chat depois de qualquer alteração de endpoint.
+- **Vercel:** o responsável pelo teste confirmou como endereço oficial utilizado `https://sistema-de-triagem-automatica.vercel.app/`. O README foi padronizado. Esta auditoria não acessou as configurações internas da Vercel.
+- **n8n:** o host documentado para abertura coincide com o frontend. A Production URL e o estado Published/Active ainda devem ser conferidos pelo responsável diretamente no n8n. Não foi feita alteração nos webhooks.
 
 ## 5. Recomendação para a documentação
 
-Manter este relatório como histórico da auditoria e atualizar `docs/casos-de-teste.md` somente com execuções que tenham resultado observado e evidência suficiente. O status geral não deve ser declarado como “todos os testes aprovados” enquanto houver cenários sem registro verificável.
+Manter este relatório como histórico da auditoria. `docs/casos-de-teste.md` foi atualizado com as duas execuções relatadas em 26/11/2026, sem transformar cenários pendentes em aprovados. O status geral não deve ser declarado como “todos os testes aprovados” enquanto houver cenários sem registro verificável.
 
 ## 6. Segurança e preservação da aplicação
 
