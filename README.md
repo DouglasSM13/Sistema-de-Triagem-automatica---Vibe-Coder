@@ -170,8 +170,6 @@ triagem-inteligente-chamados-ti/
 ├── index.html                       # Página de abertura de chamado + chat flutuante
 ├── README.md                        # Visão geral e documentação principal
 ├── .gitignore
-├── n8n/
-│   └── chatbot-chamados-n8n.json    # Workflow do assistente (importável no n8n)
 └── docs/
     ├── arquitetura.mmd              # Fonte Mermaid do desenho da abertura de chamados
     ├── configuracao-n8n.md          # Componentes e preparação do workflow de abertura
@@ -213,7 +211,7 @@ Como a página é estática, basta abrir `index.html` no navegador para conferir
 
 ### 6. Publicação na Vercel
 
-A URL principal da demonstração, informada pelo colaborador responsável em 26/11/2026, é [https://sistema-de-triagem-automatica.vercel.app/](https://sistema-de-triagem-automatica.vercel.app/). O domínio alternativo `sistema-de-triagem-eosin.vercel.app` aparece em registros anteriores, mas não foi confirmado como URL principal.
+A URL oficial da demonstração, confirmada pelo responsável pelo teste em 26/11/2026, é [https://sistema-de-triagem-automatica.vercel.app/](https://sistema-de-triagem-automatica.vercel.app/). Este é o endereço a utilizar neste README e no roteiro de apresentação.
 
 Para atualizar a publicação, confira se o projeto da Vercel está conectado ao repositório e à branch corretos. Após novos commits, verifique o deployment e teste o formulário e o chat com dados fictícios.
 
@@ -281,7 +279,7 @@ Colunas usadas no acompanhamento:
 
 ## Testes
 
-Os cenários e os resultados conhecidos estão detalhados em [`docs/casos-de-teste.md`](docs/casos-de-teste.md). Em 26/11/2026 foi relatada uma execução manual de abertura de chamado: a página apresentou confirmação, protocolo mascarado, categoria Software, prioridade Média e sugestão inicial. O conteúdo de um e-mail de confirmação também foi apresentado durante a validação. A entrega efetiva na caixa de entrada e a gravação no Google Sheets não foram verificadas independentemente. Os demais cenários continuam pendentes; portanto, o projeto ainda não deve ser apresentado como totalmente testado.
+Os cenários e os resultados conhecidos estão detalhados em [`docs/casos-de-teste.md`](docs/casos-de-teste.md). Em 26/11/2026 foram relatadas duas execuções reais na aplicação publicada. Na primeira, a página confirmou a abertura de um chamado classificado como Software, prioridade Média. Na segunda, a abertura de um chamado de instabilidade de internet gerou o protocolo `CH-20261126-VCTH`, categoria Rede/Internet e prioridade Alta; o chatbot consultou o status `Aberto` e o e-mail de confirmação foi recebido na caixa de entrada, conforme confirmação do testador. A gravação no Google Sheets e o alerta interno de prioridade alta não foram verificados independentemente. Os demais cenários da matriz continuam pendentes; portanto, os testes documentados não significam que todos os cenários possíveis estejam aprovados.
 
 Cenários sugeridos para o assistente:
 
